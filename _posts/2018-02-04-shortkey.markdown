@@ -1,5 +1,5 @@
-# ShortCut Key
-## OS
+#ShortCut Key
+##OS
 Ctrl + Alt + Cmd + B : Bear
 Ctrl + Alt + Cmd + A : Android Studio
 Ctrl + Alt + Cmd + C : Chrome
@@ -8,7 +8,7 @@ Ctrl + Alt + Cmd + M : MWeb
 Ctrl + Alt + Cmd + S  : Safari
 Ctrl           + Cmd + F  : 全屏切换
 
-## AS
+##AS
 Alt + 左方向键： 上一次编辑到的地方（回退） 
 Alt + 右方向键： 上一次编辑到的地方（前进）
 Shift + Enter : 在当前光标下添加一行
@@ -20,7 +20,7 @@ Shift+Alt + 上/下          : 上下移动整行
 Ctrl + R : 执行 
 Ctrl + F: 查找
 
-## Chrome
+##Chrome
 Shift + Cmd + Delete: 清除缓存
 
 
