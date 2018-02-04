@@ -1,0 +1,101 @@
+# 知识总结
+
+### 邮件添加垃圾邮件
+邮件 - 偏好设置 - 规则 --添加规则，将收件人的邮件自动添加到垃圾邮箱中
+
+### 通过Android Studio同步代码
+在目标Project上，progect -> svn -> Integreate directory -> 选定需要同步的起始版本（注意选定的版本号码需要比需要同步的第一个版本号要小1）和终止版本 -> 同步
+
+### 番茄工作
+* 开始计时：Shift + Cmd + R
+
+### MWeb
+* 使用MWeb逐步替代有道云笔记
+* 每个星期整理一次笔记，无用笔记做删除
+* 每个月整理一次笔记后打印出来，无用的笔记做删除
+* 最终的成品均为纸质笔记和不再更改的电子笔记
+    
+### 代码块插入
+``` java
+public void startUpload() {
+        /** 从数据库中检索出该Group中所有需要上传的报错信息 */
+        mVideos = VideoItemManager.getInstance().getInfoByGroupID(mGroupBasic.getGroupID());
+        UploadLog.d(mGroupBasic.getPkgID(), TAG,"开始上传视频，检索视频信息");
+        for(VideoItem item : mVideos){
+            UploadLog.d(mGroupBasic.getPkgID(), TAG, item.toString());
+        }
+        uploadNext(mIndex);
+    }
+
+```
+
+### 代码Review可以作为需求
+
+### AS快捷键
+Ctrl + ] : 向右选中
+Ctrl + Y : 删除整行
+Ctrl + Shift + Enter : 自动补齐当前语句
+Ctrl + Delete : 从句尾逐个block删除代码
+Shift + 向下 : 向下并选中
+Ctrl + D : 复制当前行
+End : 行末
+Home : 行首
+PageDown 
+PageUp
+Ctrl + M : 将当前行滑动到工作区中间
+
+### 查找文件
+* Command+Shift+. 可以显示隐藏文件、文件夹，再按一次，恢复隐藏；
+* finder下使用Command+Shift+G 可以前往任何文件夹，包括隐藏文件夹。
+
+### 还原加密后的代码
+* SDK/tools/proguard/bin:retrace.sh 可以用来还原混淆后的错误栈
+* 将上述目录加入到环境变量中
+
+```
+retrace.sh -verbose mapping.txt error.txt
+```
+* mapping.txt为混淆文件，error.txt为错误栈
+![](media/15063334266944/15155706718397.jpg)
+
+
+### Android日志信息
+
+``` java
+CCCCCHEN-MB0:GreenDB chaochen$ adb shell ps | grep com.tencent.greendb
+u0_a466   18821 5704  2097876 208984 SyS_epoll_ 0000000000 S com.tencent.greendb
+
+```
+com.tencent.greendb的进程号是18821
+
+```java
+01-26 18:17:23.442 18821-18821/com.tencent.greendb V/static: mainThread2
+01-26 18:17:23.443 18821-20846/com.tencent.greendb V/static: workThread
+```
+输出信息为：时间 进程号-线程号/packageName 日志级别/日志TAG：日志信息
+
+
+### Mac中添加应用启动快捷键
+https://www.jianshu.com/p/abeb1123178d
+
+### Mac中使用GitHub保存代码
+http://blog.csdn.net/a709314090/article/details/52089858
+
+### 更换手机铃声或提示音
+https://jingyan.baidu.com/article/6079ad0eb4aea728ff86db3e.html
+
+### 笔记本/台式机
+* 笔记本：
+    * gradle并行优化前
+        * clean后编译：07:17
+        * 修改一行编译：03:01
+    * gradle并行优化后
+        * clean后编译：06:03 
+        * 修改一行编译：03:05
+* 台式机
+    * clean后编译:6分03秒
+    * 修改一行后编译：02:48
+    
+* 调试手机
+    * 发现小米6的安装apk的速度要比小米note快 
+
