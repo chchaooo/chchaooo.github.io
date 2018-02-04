@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: chenchaooyx@foxmail.com
 description: "关于迷茫中的前行"
 keyword: "android, 方法论, 内存优化"
-url: "https://chchaooo.me"              # your host, for absolute URL
+url: ""              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
