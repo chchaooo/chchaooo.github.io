@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg936\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset134 PingFangSC-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # ShortCut Key\
+## OS\
+Ctrl + Alt + Cmd + B : Bear\
+Ctrl + Alt + Cmd + A : Android Studio\
+Ctrl + Alt + Cmd + C : Chrome\
+Ctrl + Alt + Cmd + W : Wechart\
+Ctrl + Alt + Cmd + M : MWeb \
+Ctrl + Alt + Cmd + S  : Safari\
+Ctrl           + Cmd + F  : 
+\f1 \'c8\'ab\'c6\'c1\'c7\'d0\'bb\'bb
+\f0 \
+\
+## AS\
+Alt + 
+\f1 \'d7\'f3\'b7\'bd\'cf\'f2\'bc\'fc\'a3\'ba
+\f0  
+\f1 \'c9\'cf\'d2\'bb\'b4\'ce\'b1\'e0\'bc\'ad\'b5\'bd\'b5\'c4\'b5\'d8\'b7\'bd\'a3\'a8\'bb\'d8\'cd\'cb\'a3\'a9
+\f0  \
+Alt + 
+\f1 \'d3\'d2\'b7\'bd\'cf\'f2\'bc\'fc\'a3\'ba
+\f0  
+\f1 \'c9\'cf\'d2\'bb\'b4\'ce\'b1\'e0\'bc\'ad\'b5\'bd\'b5\'c4\'b5\'d8\'b7\'bd\'a3\'a8\'c7\'b0\'bd\'f8\'a3\'a9
+\f0 \
+Shift + Enter : 
+\f1 \'d4\'da\'b5\'b1\'c7\'b0\'b9\'e2\'b1\'ea\'cf\'c2\'cc\'ed\'bc\'d3\'d2\'bb\'d0\'d0
+\f0 \
+Ctrl + / 
+\f1 \'a3\'ba
+\f0  
+\f1 \'cc\'ed\'bc\'d3\'bb\'f2\'d5\'df\'cf\'fb\'b3\'fd\'d7\'a2\'ca\'cd
+\f0  \
+Ctrl + Shift + / : 
+\f1 \'cc\'ed\'bc\'d3\'bf\'e9\'d7\'b4\'d7\'a2\'ca\'cd
+\f0 \
+Ctrl + Alt               + O : 
+\f1 \'c7\'e5\'b3\'fd\'ce\'de\'d0\'a7\'d2\'fd\'d3\'c3
+\f0 \
+Ctrl + Alt               + H : 
+\f1 \'b2\'e9\'d5\'d2\'b7\'bd\'b7\'a8\'d2\'fd\'d3\'c3\'b5\'c4\'ce\'bb\'d6\'c3
+\f0 \
+Shift+Alt + 
+\f1 \'c9\'cf
+\f0 /
+\f1 \'cf\'c2
+\f0           : 
+\f1 \'c9\'cf\'cf\'c2\'d2\'c6\'b6\'af\'d5\'fb\'d0\'d0
+\f0 \
+Ctrl + R : 
+\f1 \'d6\'b4\'d0\'d0
+\f0  \
+Ctrl + F: 
+\f1 \'b2\'e9\'d5\'d2
+\f0 \
+\
+## Chrome\
+Shift + Cmd + Delete: 
+\f1 \'c7\'e5\'b3\'fd\'bb\'ba\'b4\'e6}
