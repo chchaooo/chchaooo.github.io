@@ -1,3 +1,17 @@
+---
+layout:     post
+title:      "Shortcut Key"
+subtitle:   "亦步亦趋"
+date:       2018-02-04 20:30:00
+author:     "chchaooo"
+header-img: "img/main_banner.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 效率
+    - Mac
+---
+
 # ShortCut Key
 ### OS
 * Ctrl + Alt + Cmd + B : Bear 
