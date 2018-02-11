@@ -1,4 +1,3 @@
-# Java内存占用计算基础
 
 ---
 layout:     post
@@ -12,6 +11,8 @@ catalog:    true
 tags:
     - 内存
 ---
+
+# Java内存占用计算基础
 
 ## 基本类型占用的内存
 
@@ -32,10 +33,7 @@ Java基本类型占用的字节数：(1字节(byte)=8位(bits))
 
 我们先来看看在堆中单个的Object长什么样子
 
-![](img/in-post/15183204723922.jpg)
-
-
-
+![](media/15181658107695/15183204723922.jpg)
 
 在堆中，每个对象由四个域构成（A、B、C 和 D），下面我们逐个解释一下：
 
@@ -72,6 +70,8 @@ Java基本类型占用的字节数：(1字节(byte)=8位(bits))
 1. 一个空对象（没有声明任何变量）占用 8 bytes -- > 对象头 占用 8 bytes
 2. 只声明了一个boolean类型变量的类，占用 16 bytes --> 对象头(8 bytes) + boolean (1 bytes) + 填充物（7 bytes）
 3. 声明了8个boolean类型变量的类，占用 16 bytes --> 对象头(8 bytes) + boolean (1 bytes) * 8
+
+
 
 
 
