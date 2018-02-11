@@ -1,4 +1,17 @@
-# Java数据内存占用计算基础
+# Java内存占用计算基础
+
+---
+layout:     post
+title:      "java内存占用计算基础"
+subtitle:   "内存管理系列基础：能精确计算内存占用，才可以定量判一个模块的内存使用情况是否符合预期"
+date:       2018-02-11 20:30:00
+author:     "chchaooo"
+header-img: "img/main_banner.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 内存
+---
 
 ## 基本类型占用的内存
 
