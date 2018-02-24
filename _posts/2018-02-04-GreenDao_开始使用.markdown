@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "(一)开始使用"
+title:      "GreenDao_1_开始使用"
 subtitle:   "项目中需要使用到GreenDao,于是将官方文档看了一遍，留了一个翻译。由于非常关心该数据库的新能表现，因此写了一个性能测试demo，也放到了github上"
 date:       2018-02-04 20:30:00
 author:     "chchaooo"
