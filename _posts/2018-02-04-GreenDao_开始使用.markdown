@@ -1,0 +1,96 @@
+---
+layout:     post
+title:      "(一)开始使用"
+subtitle:   "项目中需要使用到GreenDao,于是将官方文档看了一遍，留了一个翻译。由于非常关心该数据库的新能表现，因此写了一个性能测试demo，也放到了github上"
+date:       2018-02-04 20:30:00
+author:     "chchaooo"
+header-img: "img/main_banner.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 数据库
+    - GreenDao
+---
+
+# 开始使用
+
+本教程将引导你完成一个简单的greenDAO示例项目DaoExample。 copy代码并运行它，或者直接在GitHub上查看文件。
+
+DaoExample是一个简单地用来记笔记的Android应用程序。 你可以通过键入一些文本来添加新笔记，并通过点击现有笔记删除笔记。
+
+### 1. Note实体和DAO类
+一起看下代码：在src文件夹中，你会发现一个实体类Note.java。 它被持久化到数据库并包含Note的所有数据，如id，注释文本和创建日期。
+
+``` java
+@Entity(indexes = {
+    @Index(value = "text, date DESC", unique = true)
+})
+public class Note {
+
+    @Id
+    private Long id;
+
+    @NotNull
+    private String text;
+    private Date date;
+    ...
+```
+
+通常，实体是在数据库中持久化的类（例如一个对象的一行）。 实体中包含映射为数据库列的属性。
+
+现在开始编译工程，例如在Android Studio中使用“Build> Make project”。 这将触发greenDAO来生成DAO类，例如NoteDao.java，这将帮助我们向数据库添加笔记。
+
+### 2. 插入和删除笔记
+要学习如何添加一些笔记，请看一下NoteActivity类。 首先，我们必须为我们的Note类准备一个DAO对象，我们在onCreate（）中做：
+
+``` java
+// get the note DAO
+DaoSession daoSession = ((App) getApplication()).getDaoSession();
+noteDao = daoSession.getNoteDao();
+```
+
+当用户单击添加按钮时，将调用addNote()方法。 在这里，我们创建一个新的Note对象，并将其传递给DAO insert()方法，以将其插入到数据库中：
+
+```java
+Note note = new Note(null, noteText, comment, new Date());
+noteDao.insert(note);
+Log.d("DaoExample", "Inserted new note, ID: " + note.getId());
+```
+
+注意，我们在创建笔记的时候没有传递id。 在这种情况下，数据库决定note id。 DAO负责在从插入操作返回之前自动设置新的ID（请参阅日志语句）。
+
+删除笔记也很简单，参见NoteClickListener：
+
+```java
+noteDao.deleteByKey(id);
+```
+
+### 3. 更新笔记
+下面的例子，是更新笔记操作，只需要修改属性，然后调用DAO的update方法
+
+```java
+note.setText("This note has changed");
+noteDao.update(note);
+```
+
+可以查看基类AbstractDao.class中其他的insert,query,update和delete方法。
+
+
+### 4. 设置数据库
+你已经看到了DAO，但是如何初始化greenDAO和底层数据库呢？ 通常你需要init一个DaoSession，它通常在整个应用程序中的Application类中执行一次：
+
+```java
+DevOpenHelper helper = new DevOpenHelper(this, "notes-db");
+Database db = helper.getWritableDb();
+daoSession = new DaoMaster(db).newSession();
+```
+
+使用生成的DaoMaster类提供的帮助器类DevOpenHelper创建数据库。 它是DaoMaster中的OpenHelper类的一个实现，它为你创建所有数据库。 再也不需要编写“CREATE TABLE”语句。
+
+然后Activity和Fragment可以调用getDaoSession()来访问所有实体DAO，和我们之前在插入和删除的时候一样。
+
+### 5. 扩展和添加实体
+为了扩展我们的笔记或创建新实体，你只需修改或创建Java类，并以相同的方式注解它们。 然后重新编译项目。
+
+
+
