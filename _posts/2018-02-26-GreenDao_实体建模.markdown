@@ -37,13 +37,12 @@ greendao {
 
 greendao配置元素支持一系列配置选项：
 
-**schemaVersion**
+* **schemaVersion**
 数据库模式的当前版本。 这由* OpenHelpers类用于在模式版本之间迁移。 如果更改实体/数据库模式，则必须增加此值。 默认值为1。
- 
-**daoPackage**
+* **daoPackage**
 生成的DAO，DaoMaster和DaoSession的包名称。 默认为源实体的包名称。
 
-**targetGenDir**
+* **targetGenDir**
 生成的源码应存储在的位置。 **默认为生成目录（build/generated/ source/greendao）中生成的源文件夹**。
 generateTests：设置为true以自动生成单元测试。
 targetGenDirTests：生成的单元测试应存储在的基本目录。 默认为src/androidTest/java。
@@ -133,13 +132,10 @@ public class User {
 }
 ```
 
-**@Id注解**选择long / Long属性作为实体ID。 在数据库术语中，它是主键。 参数autoincrement是一个标志，使ID值不断增加（不重用旧值）。
-
-**@Property注解**允许你定义一个当前属性映射到的数据库列的非默认名称。 如果为空，greenDAO将以SQL-ish方式使用字段名（大写字母，下划线代替驼峰，例如customName将成为CUSTOM_NAME）。 注意：当前只能使用内联常量来指定列名称。
-
-**@NotNull注解**使属性在数据库端为“NOT NULL”列。 使用@NotNull标记原始类型（long，int，short，byte）时这些类型将一定非空，标记封装类（Long，Integer，Short，Byte）时则这些封装类型属性为null值。
-
-**@Transient注解**标记不做持久化的属性。 将它们用于临时状态等。或者，也可以使用Java中的transient关键字。
+* **@Id注解**选择long / Long属性作为实体ID。 在数据库术语中，它是主键。 参数autoincrement是一个标志，使ID值不断增加（不重用旧值）。
+* **@Property注解**允许你定义一个当前属性映射到的数据库列的非默认名称。 如果为空，greenDAO将以SQL-ish方式使用字段名（大写字母，下划线代替驼峰，例如customName将成为CUSTOM_NAME）。 注意：当前只能使用内联常量来指定列名称。
+* **@NotNull注解**使属性在数据库端为“NOT NULL”列。 使用@NotNull标记原始类型（long，int，short，byte）时这些类型将一定非空，标记封装类（Long，Integer，Short，Byte）时则这些封装类型属性为null值。
+* **@Transient注解**标记不做持久化的属性。 将它们用于临时状态等。或者，也可以使用Java中的transient关键字。
 
 ### 主键限制
 >目前，实体必须具有long或Long属性作为其主键。 这是Android和SQLite的推荐做法。
