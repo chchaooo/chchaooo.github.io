@@ -2,7 +2,7 @@
 layout:     post
 title:      "(三)java垃圾回收机制"
 subtitle:   "理解不同的垃圾回收算法和java虚拟机中垃圾回收机制"
-date:       2018-02-28 20:30:00
+date:       2018-02-29 20:30:00
 author:     "chchaooo"
 header-img: "img/main_banner.jpg"
 header-mask: 0.3
