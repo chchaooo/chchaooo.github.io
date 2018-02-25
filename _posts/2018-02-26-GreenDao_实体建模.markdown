@@ -1,0 +1,216 @@
+---
+layout:     post
+title:      "GreenDao_3_实体建模"
+subtitle:   "项目中需要使用到GreenDao,于是将官方文档看了一遍，留了一个翻译。由于非常关心该数据库的新能表现，因此写了一个性能测试demo，也放到了github上"
+date:       2018-02-26 20:30:00
+author:     "chchaooo"
+header-img: "img/main_banner.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - 数据库
+    - GreenDao
+---
+
+
+# 实体建模
+要在项目中使用greenDAO，您需要创建一个表示应用程序中持久数据的实体模型。 然后基于此模型，greenDAO生成各个model对应DAO类的Java代码。 
+
+模型（model）使用带有注解的Java类定义的。 
+
+下侧的图示描述了greenDAO所基于的元模型。
+![](https://cl.ly/1f2x052y0s1V/Image%202018-02-25%20at%209.51.41%20%E4%B8%8A%E5%8D%88.png)
+
+### 模式（Schema）
+第一步，简单设置下schemaVersion：
+
+```java
+// In the build.gradle file of your app project:
+android {
+...
+}
+
+greendao {
+    schemaVersion 2
+}
+```
+
+greendao配置元素支持一系列配置选项：
+
+**schemaVersion**
+数据库模式的当前版本。 这由* OpenHelpers类用于在模式版本之间迁移。 如果更改实体/数据库模式，则必须增加此值。 默认值为1。
+ 
+**daoPackage**
+生成的DAO，DaoMaster和DaoSession的包名称。 默认为源实体的包名称。
+
+**targetGenDir**
+生成的源码应存储在的位置。 **默认为生成目录（build/generated/ source/greendao）中生成的源文件夹**。
+generateTests：设置为true以自动生成单元测试。
+targetGenDirTests：生成的单元测试应存储在的基本目录。 默认为src/androidTest/java。
+
+### 实体（model）和注解（annotation）
+greenDAO3使用注解来定义模式和实体。 这里有一个简单的例子：
+
+```java
+@Entity
+public class User {
+    @Id
+    private Long id;
+
+    private String name;
+
+    @Transient
+    private int tempUsageCount; // not persisted
+
+   // getters and setters for id and user ...
+}
+```
+
+**@Entity注解**将Java类User转换为数据库支持的实体，greenDAO将会为User Model生成必要的代码（例如DAO）
+
+注意：仅支持Java类。 如果你喜欢另一种语言，如Kotlin，你的实体类仍然必须是Java。
+
+### @Entity 注解
+正如在上面的示例中看到的，@Entity注解将Java类标记为greenDAO的持久化的实体,在使用@Entity的时候可以配置一些细节：
+
+``` java
+@Entity(
+        // If you have more than one schema, you can tell greenDAO
+        // to which schema an entity belongs (pick any string as a name).
+        schema = "myschema",
+
+        // Flag to make an entity "active": Active entities have update,
+        // delete, and refresh methods.
+        active = true,
+
+        // Specifies the name of the table in the database.
+        // By default, the name is based on the entities class name.
+        nameInDb = "AWESOME_USERS",
+
+        // Define indexes spanning multiple columns here.
+        indexes = {
+                @Index(value = "name DESC", unique = true)
+        },
+
+        // Flag if the DAO should create the database table (default is true).
+        // Set this to false, if you have multiple entities mapping to one table,
+        // or the table creation is done outside of greenDAO.
+        createInDb = false,
+
+        // Whether an all properties constructor should be generated.
+        // A no-args constructor is always required.
+        generateConstructors = true,
+
+        // Whether getters and setters for properties should be generated if missing.
+        generateGettersSetters = true
+)
+public class User {
+  ...
+}
+```
+
+
+注意，当使用Gradle插件时，目前不支持多个模式。 
+
+### 基本属性（Id，property）
+
+```java
+@Entity
+public class User {
+    @Id(autoincrement = true)
+    private Long id;
+
+    @Property(nameInDb = "USERNAME")
+    private String name;
+
+    @NotNull
+    private int repos;
+
+    @Transient
+    private int tempUsageCount;
+
+    ...
+}
+```
+
+**@Id注解**选择long / Long属性作为实体ID。 在数据库术语中，它是主键。 参数autoincrement是一个标志，使ID值不断增加（不重用旧值）。
+
+**@Property注解**允许你定义一个当前属性映射到的数据库列的非默认名称。 如果为空，greenDAO将以SQL-ish方式使用字段名（大写字母，下划线代替驼峰，例如customName将成为CUSTOM_NAME）。 注意：当前只能使用内联常量来指定列名称。
+
+**@NotNull注解**使属性在数据库端为“NOT NULL”列。 使用@NotNull标记原始类型（long，int，short，byte）时这些类型将一定非空，标记封装类（Long，Integer，Short，Byte）时则这些封装类型属性为null值。
+
+**@Transient注解**标记不做持久化的属性。 将它们用于临时状态等。或者，也可以使用Java中的transient关键字。
+
+### 主键限制
+>目前，实体必须具有long或Long属性作为其主键。 这是Android和SQLite的推荐做法。
+
+如果想要使用非Long类型作为主键（不支持），替代方案是为该属性创建唯一索引：
+
+```java
+@Id
+private Long id;
+
+@Index(unique = true)
+private String key;
+```
+
+### 索引（index）
+在属性中使用@Index可为相应的数据库列创建数据库索引。 使用以下参数自定义：
+
+* **name**：如果你不喜欢greenDAO为索引生成的默认名称，你可以在这里指定你的名字。 
+* **unique**：向索引添加UNIQUE约束，强制所有值是唯一的。
+
+```java
+@Entity
+public class User {
+    @Id private Long id;
+    @Index(unique = true)
+    private String name;
+}
+```
+
+@Unique向数据库列添加UNIQUE约束。 注意，SQLite也隐式地为它创建一个索引。
+
+```java
+@Entity
+public class User {
+    @Id private Long id;
+    @Unique private String name;
+}
+```
+
+### 默认值
+greenDAO尝试使用合理的默认值，以避免开发人员一一配置。
+
+例如，数据库侧的表和列名称派生自实体和属性名称。 而不是在Java中使用的骆驼案例样式，默认数据库名称使用大写，使用下划线分隔单词。例如，名为creationDate的属性将成为数据库列CREATION_DATE
+
+### 关系
+要了解如何添加一对一和多对多关系，请参阅关系(后续博文)
+
+### 触发生成
+一旦实体模式就位（编码完成），你就可以通过在IDE中使用“Make project”来触发代码生成过程。 或者直接执行greendao Gradle任务。greendao将会生成各个model对应的dao类代码。
+
+如果在更改实体类之后遇到错误，请重新生成项目，以确保清除旧生成的类。
+
+### 修改生成的代码
+greenDAO 3中的实体类由开发人员创建和编辑。 然而，在代码生成过程中，greenDAO可能会增加实体的源代码。
+
+greenDAO将为它创建的方法和字段添加一个**@Generated注解**，以通知开发人员并防止任何代码丢失。 在大多数情况下，你不必关心使用@Generated注解的代码。
+
+作为预防措施，greenDAO不会覆盖现有代码，并且如果手动更改生成的代码会引发错误：
+
+```java
+Error:Execution failed for task ':app:greendao'.
+> Constructor (see ExampleEntity:21) has been changed after generation.
+Please either mark it with @Keep annotation instead of @Generated to keep it untouched,
+or use @Generated (without hash) to allow to replace it.
+```
+
+通常有两种方法来解决此问题：
+
+* 将更改还原为使用@Generated注解的代码。
+* 使用@Keep注解替换@Generated注解。 这将告诉greenDAO永远不要触摸带注解的代码。 请记住，你的更改可能会中断实体和其他greenDAO之间的约定。 此外，未来的greenDAO版本可能期望生成的方法中有不同的代码。 所以，要谨慎！
+
+### 保留部分
+不再支持旧版本的greenDAO中使用的KEEP。
+
