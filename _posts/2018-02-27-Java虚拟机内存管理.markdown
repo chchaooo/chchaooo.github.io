@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "java虚拟机内存管理"
-subtitle:   "理解java虚拟机中的内存组成"
+subtitle:   "(二)理解java虚拟机中的内存组成"
 date:       2018-02-28 20:30:00
 author:     "chchaooo"
 header-img: "img/main_banner.jpg"

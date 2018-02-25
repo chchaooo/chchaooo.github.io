@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "java内存占用计算基础"
+title:      "(一)java内存占用计算基础"
 subtitle:   "内存管理系列基础：能精确计算内存占用，才可以定量判一个模块的内存使用情况是否符合预期"
 date:       2018-02-11 20:30:00
 author:     "chchaooo"
