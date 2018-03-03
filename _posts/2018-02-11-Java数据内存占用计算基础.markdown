@@ -62,7 +62,6 @@ long/double --> int/float -->  short/char --> byte/boolean --> Reference
 * 声明了4个boolean类型变量的类，占用 16bytes --> 对象头(8bytes) + OOP(4bytes) + boolean (4bytes)
 
 
-
-
-
+### Compressed oops（压缩了的普通对象指针）
+参考：https://www.2cto.com/kf/201611/560958.html
 
