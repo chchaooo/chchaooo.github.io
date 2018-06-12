@@ -340,6 +340,7 @@ public static void testForeach(){
 ArrayList中的迭代器中的next方法中抛出的异常。因此出现的原因和解决方案与迭代器相同
 
 ### 附录：
-源码位置：https://github.com/chchaooo/SyntaxDemo
-博客原址：https://chchaooo.github.io/2018/06/11/ConcurrentModificationException/
+
+* 源码位置：[https://github.com/chchaooo/SyntaxDemo](https://github.com/chchaooo/SyntaxDemo)
+* 博客原址：[https://chchaooo.github.io/2018/06/11/ConcurrentModificationException/](https://github.com/chchaooo/SyntaxDemo)
 
