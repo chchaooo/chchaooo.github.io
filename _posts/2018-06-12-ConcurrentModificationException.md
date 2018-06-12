@@ -221,10 +221,10 @@ public void remove() {
 在这个remove方法中，调用AbstractList的remove方法之后，同步也修改了expectedModCount值。
 
 ``` java
-    /**
-     * 在迭代器遍历过程中，如果需要变更集合内容，
-     * 必须要通过迭代器自身的it.remove()来进行
-     * */
+/**
+ * 在迭代器遍历过程中，如果需要变更集合内容，
+ * 必须要通过迭代器自身的it.remove()来进行
+ * */
 public static void testIteratorRemove(){
     List<String> strs = new ArrayList<>();
     for(int i=0; i<10000; i++){
@@ -244,6 +244,7 @@ public static void testIteratorRemove(){
 ``` java
 /**
  * 单个线程使用迭代器遍历时来进行删除没有问题。
+ * 
  * 多个线程中分别使用两个迭代器来进行遍历，
  * 当thread2中执行了remove操作之后，thread1会因为异常退出。
  * */
