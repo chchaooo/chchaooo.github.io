@@ -21,7 +21,7 @@ tags:
 
 下面是个简单的迭代器的使用例子
 
-```
+``` java
     /**
      * 如果在迭代器遍历的过程中，当前线程或者其他线程直接改变了遍历集合的内容
      * 此时会出现ConcurrentModificationException
@@ -120,7 +120,7 @@ So easy ？然而，执行的时候我们可以发现，上面的代码会报错
 * expectedModCount：表示对ArrayList修改次数的期望值，它的初始值为modCount。
 * modCount是AbstractList类中的一个成员变量
 
-```
+``` java
 protected transient int modCount = 0;
 ```
 该值表示对List的修改次数，查看ArrayList的add()和remove()方法就可以发现，每次调用add()方法或者remove()方法就会对modCount进行加1操作。
@@ -136,7 +136,7 @@ protected transient int modCount = 0;
 
 然后通过Iterator的next()方法获取到下标为0的元素，我们看一下next()方法的具体实现：
 
-```
+``` java
     public E next() {
         checkForComodification();
         try {
@@ -157,7 +157,7 @@ protected transient int modCount = 0;
 
 我们看一下在ArrayList中的remove()方法做了什么：
 
-```
+``` java
     public boolean remove(Object o) {
         if (o == null) {
             for (int index = 0; index < size; index++)
@@ -192,7 +192,7 @@ protected transient int modCount = 0;
 
 执行完删除操作后，继续while循环，调用hasNext方法()判断，由于此时cursor为1，而size为10000，那么返回true，所以继续执行while循环，然后继续调用iterator的next()方法。注意，此时要注意next()方法中的第一句：checkForComodification()。
 
-```
+``` java
 final void checkForComodification() {
     if (modCount != expectedModCount)
         throw new ConcurrentModificationException();
@@ -204,7 +204,7 @@ final void checkForComodification() {
 
 其实很简单，细心的朋友可能发现在Itr类中也给出了一个remove()方法：
 
-```
+``` java
 public void remove() {
     if (lastRet < 0)
         throw new IllegalStateException();
@@ -222,7 +222,7 @@ public void remove() {
 ```
 在这个remove方法中，调用AbstractList的remove方法之后，同步也修改了expectedModCount值。
 
-```
+``` java
     /**
      * 在迭代器遍历过程中，如果需要变更集合内容，
      * 必须要通过迭代器自身的it.remove()来进行
@@ -243,7 +243,7 @@ public void remove() {
 
 ### 多线程下如何？
 
-```
+``` java
     /**
      * 单个线程使用迭代器遍历时来进行删除没有问题。
      * 多个线程中分别使用两个迭代器来进行遍历，
@@ -289,7 +289,7 @@ public void remove() {
 
 ### Array Index
 
-```
+``` java
     /**
      * 直接使用index来进行删除，并没有涉及到迭代器
      * 逆序删除时，可以正常执行完成
@@ -319,7 +319,7 @@ public void remove() {
 
 ForEach是jdk5.0新增加的一个循环结构，可以用来处理集合中的每个元素而不用考虑集合定下标. ForEach中使用的集合必须是一个实现了Iterator接口的集合。
 
-```
+``` java
     /**
      * 下面的测试，在删除第一个元素之后，就报错ConcurrentModificationException
      * */
