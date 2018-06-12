@@ -21,23 +21,24 @@ tags:
 
 下面是个简单的迭代器的使用例子
 
+
 ``` java
-    /**
-     * 如果在迭代器遍历的过程中，当前线程或者其他线程直接改变了遍历集合的内容
-     * 此时会出现ConcurrentModificationException
-     * */
-    public static void testIterator(){
-        List<String> strs = new ArrayList<>();
-        for(int i=0; i<10000; i++){
-            strs.add(String.valueOf(i));
-        }
-        Iterator<String> it = strs.iterator();
-        while (it.hasNext()){
-            String item = it.next();
-            System.out.println(item);
-            strs.remove(item);
-        }
+/**
+ * 如果在迭代器遍历的过程中，当前线程或者其他线程直接改变了遍历集合的内容
+ * 此时会出现ConcurrentModificationException
+ * */
+public static void testIterator(){
+    List<String> strs = new ArrayList<>();
+    for(int i=0; i<10000; i++){
+        strs.add(String.valueOf(i));
     }
+    Iterator<String> it = strs.iterator();
+    while (it.hasNext()){
+        String item = it.next();
+        System.out.println(item);
+        strs.remove(item);
+    }
+}
 ```
 So easy ？然而，执行的时候我们可以发现，上面的代码会报错：
 
@@ -50,69 +51,67 @@ So easy ？然而，执行的时候我们可以发现，上面的代码会报错
 首先看ArrayList的iterator()方法的具体实现，查看源码发现在ArrayList的源码中并没有iterator()这个方法，那么很显然这个方法应该是其父类或者实现的接口中的方法，我们在其父类AbstractList中找到了iterator()方法的具体实现，下面是其实现代码：
 
 ``` java
-    public Iterator<E> iterator() {
-        return new Itr();
+public Iterator<E> iterator() {
+    return new Itr();
+}
+private class Itr implements Iterator<E> {
+    /**
+     * Index of element to be returned by subsequent call to next.
+     */
+    int cursor = 0;
+    /**
+     * Index of element returned by most recent call to next or
+     * previous.  Reset to -1 if this element is deleted by a call
+     * to remove.
+     */
+    int lastRet = -1;
+    /**
+     * The modCount value that the iterator believes that the backing
+     * List should have.  If this expectation is violated, the iterator
+     * has detected concurrent modification.
+     */
+    int expectedModCount = modCount;
+    
+    public boolean hasNext() {
+        return cursor != size();
     }
-    private class Itr implements Iterator<E> {
-        /**
-         * Index of element to be returned by subsequent call to next.
-         */
-        int cursor = 0;
-
-        /**
-         * Index of element returned by most recent call to next or
-         * previous.  Reset to -1 if this element is deleted by a call
-         * to remove.
-         */
-        int lastRet = -1;
-
-        /**
-         * The modCount value that the iterator believes that the backing
-         * List should have.  If this expectation is violated, the iterator
-         * has detected concurrent modification.
-         */
-        int expectedModCount = modCount;
-
-        public boolean hasNext() {
-            return cursor != size();
-        }
-
-        public E next() {
+    
+    public E next() {
+        checkForComodification();
+        try {
+            int i = cursor;
+            E next = get(i);
+            lastRet = i;
+            cursor = i + 1;
+            return next;
+        } catch (IndexOutOfBoundsException e) {
             checkForComodification();
-            try {
-                int i = cursor;
-                E next = get(i);
-                lastRet = i;
-                cursor = i + 1;
-                return next;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
-                throw new NoSuchElementException();
-            }
-        }
-
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
-
-            try {
-                AbstractList.this.remove(lastRet);
-                if (lastRet < cursor)
-                    cursor--;
-                lastRet = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException e) {
-                throw new ConcurrentModificationException();
-            }
-        }
-
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+            throw new NoSuchElementException();
         }
     }
+    
+    public void remove() {
+        if (lastRet < 0)
+            throw new IllegalStateException();
+        checkForComodification();
+        try {
+            AbstractList.this.remove(lastRet);
+            if (lastRet < cursor)
+                cursor--;
+            lastRet = -1;
+            expectedModCount = modCount;
+        } catch (IndexOutOfBoundsException e) {
+            throw new ConcurrentModificationException();
+        }
+    }
+    
+    final void checkForComodification() {
+        if (modCount != expectedModCount)
+            throw new ConcurrentModificationException();
+    }
+}
 ```
+
 首先我们看一下它的几个成员变量：
 
 * cursor：表示下一个要访问的元素的索引
@@ -128,28 +127,28 @@ protected transient int modCount = 0;
 当调用list.iterator()返回一个Iterator之后，通过Iterator的hashNext()方法判断是否还有元素未被访问，我们看一下hasNext()方法，hashNext()方法的实现很简单：
 
 ```
-    public boolean hasNext() {
-        return cursor != size();
-    }
+public boolean hasNext() {
+    return cursor != size();
+}
 ```
 只有当cursor到达队尾时，才等于size，其他时候，均还有可以访问的值（cursor从0开始递增）。
 
 然后通过Iterator的next()方法获取到下标为0的元素，我们看一下next()方法的具体实现：
 
 ``` java
-    public E next() {
+public E next() {
+    checkForComodification();
+    try {
+        int i = cursor;
+        E next = get(i);
+        lastRet = i;
+        cursor = i + 1;
+        return next;
+    } catch (IndexOutOfBoundsException e) {
         checkForComodification();
-        try {
-            int i = cursor;
-            E next = get(i);
-            lastRet = i;
-            cursor = i + 1;
-            return next;
-        } catch (IndexOutOfBoundsException e) {
-            checkForComodification();
-            throw new NoSuchElementException();
-        }
+        throw new NoSuchElementException();
     }
+}
 ```
 这里是非常关键的地方：首先在next()方法中会调用checkForComodification()方法，然后根据cursor的值获取到元素，接着将cursor的值赋给lastRet，并对cursor的值进行加1操作。初始时，cursor为0，lastRet为-1，那么调用一次之后，cursor的值为1，lastRet的值为0。注意此时，modCount为0，expectedModCount也为0。
 
@@ -158,35 +157,34 @@ protected transient int modCount = 0;
 我们看一下在ArrayList中的remove()方法做了什么：
 
 ``` java
-    public boolean remove(Object o) {
-        if (o == null) {
-            for (int index = 0; index < size; index++)
-                if (elementData[index] == null) {
-                    fastRemove(index);
-                    return true;
-                }
-        } else {
-            for (int index = 0; index < size; index++)
-                if (o.equals(elementData[index])) {
-                    fastRemove(index);
-                    return true;
-                }
-        }
-        return false;
+public boolean remove(Object o) {
+    if (o == null) {
+        for (int index = 0; index < size; index++)
+            if (elementData[index] == null) {
+                fastRemove(index);
+                return true;
+            }
+    } else {
+        for (int index = 0; index < size; index++)
+            if (o.equals(elementData[index])) {
+                fastRemove(index);
+                return true;
+            }
     }
+    return false;
+}
 
-    /*
-     * Private remove method that skips bounds checking and does not
-     * return the value removed.
-     */
-    private void fastRemove(int index) {
-        modCount++;
-        int numMoved = size - index - 1;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index+1, elementData, index,
-                             numMoved);
-        elementData[--size] = null; // clear to let GC do its work
-    }
+/*
+ * Private remove method that skips bounds checking and does not
+ * return the value removed.
+ */
+private void fastRemove(int index) {
+    modCount++;
+    int numMoved = size - index - 1;
+    if (numMoved > 0)
+        System.arraycopy(elementData, index+1, elementData, index,numMoved);
+    elementData[--size] = null; // clear to let GC do its work
+}
 ```
 在ArrayList的remove操作中，最终对modCount进行加1操作（因为对集合修改了一次），那么注意此时各个变量的值：对于iterator，其expectedModCount为0，cursor的值为1，lastRet的值为0；对于list，其modCount为1，size为0。
 
@@ -227,56 +225,57 @@ public void remove() {
      * 在迭代器遍历过程中，如果需要变更集合内容，
      * 必须要通过迭代器自身的it.remove()来进行
      * */
-    public static void testIteratorRemove(){
-        List<String> strs = new ArrayList<>();
-        for(int i=0; i<10000; i++){
-            strs.add(String.valueOf(i));
-        }
-        Iterator<String> it = strs.iterator();
-        while (it.hasNext()){
-            String item = it.next();
-            System.out.println(item);
-            it.remove();
-        }
+public static void testIteratorRemove(){
+    List<String> strs = new ArrayList<>();
+    for(int i=0; i<10000; i++){
+        strs.add(String.valueOf(i));
     }
+    Iterator<String> it = strs.iterator();
+    while (it.hasNext()){
+        String item = it.next();
+        System.out.println(item);
+        it.remove();
+    }
+}
 ```
 
 ### 多线程下如何？
 
 ``` java
-    /**
-     * 单个线程使用迭代器遍历时来进行删除没有问题。
-     * 多个线程中分别使用两个迭代器来进行遍历，
-     * 当thread2中执行了remove操作之后，thread1会因为异常退出。
-     * */
-    public static void testMultiThreadIteratorDelete(){
-        List<String> strs = new ArrayList<>();
-        for(int i=0; i<1000; i++){
-            strs.add(String.valueOf(i));
-        }
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Iterator<String> it = strs.iterator();
-                while (it.hasNext()){
-                    System.out.println(it.next());
-                }
-            }
-        });
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Iterator<String> it = strs.iterator();
-                while (it.hasNext()){
-                    System.out.println("delete"+it.next());
-                    it.remove();
-                }
-            }
-        });
-        thread1.start();
-        thread2.start();
+/**
+ * 单个线程使用迭代器遍历时来进行删除没有问题。
+ * 多个线程中分别使用两个迭代器来进行遍历，
+ * 当thread2中执行了remove操作之后，thread1会因为异常退出。
+ * */
+public static void testMultiThreadIteratorDelete(){
+    List<String> strs = new ArrayList<>();
+    for(int i=0; i<1000; i++){
+        strs.add(String.valueOf(i));
     }
+    Thread thread1 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Iterator<String> it = strs.iterator();
+            while (it.hasNext()){
+                System.out.println(it.next());
+            }
+        }
+    });
+    Thread thread2 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Iterator<String> it = strs.iterator();
+             while (it.hasNext()){
+                System.out.println("delete"+it.next());
+                it.remove();
+            }
+        }
+    });
+    thread1.start();
+    thread2.start();
+}
 ```
+
 多线程执行时，
 
 ![](https://cl.ly/3d1w433y0i31/Image%202018-06-12%20at%205.41.09%20%E4%B8%8B%E5%8D%88.png)
@@ -290,26 +289,25 @@ public void remove() {
 ### Array Index
 
 ``` java
-    /**
-     * 直接使用index来进行删除，并没有涉及到迭代器
-     * 逆序删除时，可以正常执行完成
-     * 顺序删除时，则无法执行完成。循环执行到5000时，数组中只有5000个元素，最大下标4999，数组越界
-     * */
-    public static void testIndex(){
-        List<String> strs = new ArrayList<>();
-        for(int i=0; i<10000; i++){
-            strs.add(String.valueOf(i));
-        }
-        for(int i=10000-1; i>=0; i--){
-            strs.remove(i);
-            System.out.println(String.valueOf(i));
-        }
-//        for(int i=0; i<10000; i++){
-//            strs.remove(i);
-//            System.out.println(String.valueOf(i));
-//        }
+/**
+ * 直接使用index来进行删除，并没有涉及到迭代器
+ * 逆序删除时，可以正常执行完成
+ * 顺序删除时，则无法执行完成。循环执行到5000时，数组中只有5000个元素，最大下标4999，数组越界
+ * */
+public static void testIndex(){
+    List<String> strs = new ArrayList<>();
+    for(int i=0; i<10000; i++){
+        strs.add(String.valueOf(i));
     }
-    
+    for(int i=10000-1; i>=0; i--){
+        strs.remove(i);
+        System.out.println(String.valueOf(i));
+    }
+//  for(int i=0; i<10000; i++){
+//      strs.remove(i);
+//      System.out.println(String.valueOf(i));
+//  }
+} 
 ```
     
 通过index来遍历数组，这种情况在单线程和多线程情况下均不会出现ConcurrentModificationException,但是操作不当会出现IndexOutOfBoundsException.
@@ -320,19 +318,19 @@ public void remove() {
 ForEach是jdk5.0新增加的一个循环结构，可以用来处理集合中的每个元素而不用考虑集合定下标. ForEach中使用的集合必须是一个实现了Iterator接口的集合。
 
 ``` java
-    /**
-     * 下面的测试，在删除第一个元素之后，就报错ConcurrentModificationException
-     * */
-    public static void testForeach(){
-        List<String> strs = new ArrayList<>();
-        for(int i=0; i<10000; i++){
-            strs.add(String.valueOf(i));
-        }
-        for (String item: strs) {
-            strs.remove(item);
-            System.out.println(String.valueOf(strs.size()));
-        }
+/**
+ * 下面的测试，在删除第一个元素之后，就报错ConcurrentModificationException
+ * */
+public static void testForeach(){
+    List<String> strs = new ArrayList<>();
+    for(int i=0; i<10000; i++){
+        strs.add(String.valueOf(i));
     }
+    for (String item: strs) {
+        strs.remove(item);
+        System.out.println(String.valueOf(strs.size()));
+    }
+}
 ```
 
 ![](https://cl.ly/0i3P1S0z2r2Y/Image%202018-06-12%20at%204.13.34%20%E4%B8%8B%E5%8D%88.png)
