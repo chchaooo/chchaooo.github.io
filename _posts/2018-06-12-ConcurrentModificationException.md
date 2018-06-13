@@ -342,7 +342,7 @@ ArrayList中的迭代器中的next方法中抛出的异常。因此出现的原�
 ### 附录：
 
 * 源码位置：[https://github.com/chchaooo/SyntaxDemo](https://github.com/chchaooo/SyntaxDemo)
-* 博客原址：[https://chchaooo.github.io/2018/06/11/ConcurrentModificationException/](https://github.com/chchaooo/SyntaxDemo)
+* 博客原址：[https://chchaooo.github.io/2018/06/11/ConcurrentModificationException/](https://chchaooo.github.io/2018/06/11/ConcurrentModificationException/)
 * 博客园地址(如有问题交流请移步这里)：[https://www.cnblogs.com/weilf/p/9176188.html](https://www.cnblogs.com/weilf/p/9176188.html)
 
 
