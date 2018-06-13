@@ -13,13 +13,15 @@ tags:
 
 ### ConcurrentModificationException
 
-在对集合类进行操作时，有很多清空会出现ConcurrentModificationException。这里我们来分不同的遍历方式和线程场景下来讨论ConcurrentModificationException产生的原因和解决的方法。下面我们先就使用迭代器出现异常来进行讨论，最后再讨论其他的遍历形式。
+在对集合类进行操作时，有很多情况会出现ConcurrentModificationException。这篇文章我们来分不同的遍历方式和线程场景来讨论ConcurrentModificationException产生的原因和解决的方法。
+
+下面我们先就使用迭代器进行遍历出现异常来进行讨论，最后再讨论其他的遍历形式。
 
 ### Iterator
 
 使用 Iterator 的好处在于可以使用相同方式去遍历集合中元素，而不用考虑集合类的内部实现（只要它实现了 java.lang.Iterable 接口）。比如，如果使用 Iterator 来遍历集合中元素，一旦不再使用 List 转而使用 Set 来组织数据，那遍历元素的代码不用做任何修改。
 
-下面是个简单的迭代器的使用例子
+我们来看下面这个简单的迭代器的使用例子
 
 
 ``` java
@@ -40,7 +42,7 @@ public static void testIterator(){
     }
 }
 ```
-So easy ？然而，执行的时候我们可以发现，上面的代码会报错：
+So easy对吧。然而，执行的时候我们可以发现，上面的代码会报错：
 
 ![](https://cl.ly/3J2R45210l40/Image%202018-06-12%20at%204.52.31%20%E4%B8%8B%E5%8D%88.png)
 
