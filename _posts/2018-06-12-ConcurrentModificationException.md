@@ -13,7 +13,9 @@ tags:
 
 ### ConcurrentModificationException
 
-在对集合类进行操作时，有很多清空会出现ConcurrentModificationException。这里我们来分不同的遍历方式和线程场景下来讨论ConcurrentModificationException产生的原因和解决的方法。下面我们先就使用迭代器出现异常来进行讨论，最后再讨论其他的遍历形式。
+在对集合类进行操作时，有很多情况会出现ConcurrentModificationException。这篇文章我们来分不同的遍历方式和线程场景来讨论ConcurrentModificationException产生的原因和解决的方法。
+
+下面我们先就使用迭代器出现异常来进行讨论，最后再讨论其他的遍历形式。
 
 ### Iterator
 
