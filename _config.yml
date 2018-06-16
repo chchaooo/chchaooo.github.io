@@ -3,7 +3,7 @@ title: chchaooo Blog
 SEOTitle: 陈超的博客 | chchaooo Blog
 header-img: img/main_banner.jpg
 email: chenchaooyx@foxmail.com
-description: "关于迷茫中的前行"
+description: "吾尝终日而思矣，不如须臾之所学也；吾尝跂而望矣，不如登高之博见也。不积跬步，无以至千里；不积小流，无以成江海。"
 keyword: "android, 方法论, 内存优化"
 url: ""              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
@@ -11,10 +11,10 @@ baseurl: ""                             # for example, '/blog' if your blog host
 
 
 # SNS settings
-RSS: false
+RSS: true
 # weibo_username:
 # zhihu_username:
-# github_username:
+github_username: chchaooo
 # twitter_username:
 # facebook_username:
 # linkedin_username:  firstname-lastname-idxxxx
