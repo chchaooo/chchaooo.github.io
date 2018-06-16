@@ -67,13 +67,13 @@ ga_domain:
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "得有些不让自己迷茫的事"
+sidebar-about-description: "互联网从业者，知识聚合和服务工作者"
 sidebar-avatar: /img/chchaooo.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
 # Featured Tags
-featured-tags: false                     # whether or not using Feature-Tags
+featured-tags: true                     # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
 
 
@@ -85,3 +85,11 @@ service-worker: true
 
 
 # Friends
+friends: [
+{
+title: "UncleChen的博客",
+href: "http://unclechen.github.io/"
+}
+]
+
+
