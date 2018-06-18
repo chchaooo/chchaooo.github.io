@@ -48,7 +48,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: chchaooo
+# disqus_username: chchaooo
 
 # Netease setttings
 netease_comment: false
