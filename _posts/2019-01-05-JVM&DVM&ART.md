@@ -20,9 +20,9 @@ JVM有三个概念：规范，实现和实例。
 * JVM实现是一种满足JVM规范要求的计算机程序。
 * JVM的实例是在执行编译成Java字节码的计算机程序的过程中运行的实现。
 JVM上的垃圾回收机制可以参考这里：
-[java虚拟机内存管理](https://chchaooo.github.io/2018/02/28/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/)
-[java垃圾回收机制](https://chchaooo.github.io/2018/03/01/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/)
-[分代垃圾收集器的详细机制](https://chchaooo.github.io/2018/03/01/%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E8%AF%A6%E7%BB%86%E6%9C%BA%E5%88%B6/)
+    * [java虚拟机内存管理](https://chchaooo.github.io/2018/02/28/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/)
+    * [java垃圾回收机制](https://chchaooo.github.io/2018/03/01/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/)
+    * [分代垃圾收集器的详细机制](https://chchaooo.github.io/2018/03/01/%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E8%AF%A6%E7%BB%86%E6%9C%BA%E5%88%B6/)
 
 ### Dalvik
 Dalvik是Google专门为Android操作系统开发的虚拟机。它支持.dex（即“Dalvik Executable”）格式的Java应用程序的运行。.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。Dalvik由Dan Bornstein编写，名字来源于他的祖先曾经居住过的小渔村达尔维克（Dalvík），位于冰岛。
@@ -56,6 +56,7 @@ ART虚拟机对上面的几点分别做了改进。
 
 ### AOT
 > 由于硬件的发展，硬件资源不再紧缺。ART虚拟机引入AOT机制本质来说，是以空间换时间的方式，来加速App运行，代价是App的存储占用空间会增大10~20%，安装时间也会增长。下面描述了Dalvik虚拟机和ART虚拟机在安装apk时的区别：
+
 ![](http://qiangbo-workspace.oss-cn-shanghai.aliyuncs.com/AndroidNewFeatureBook/Chapter3/art_vs_dalvik.png)
 * 在Dalvik虚拟机上，APK中的Dex文件在安装时会被优化成odex文件，在运行时，会被JIT编译器编译成native代码。
 * 在ART虚拟机上安装时，Dex文件会直接由dex2oat工具翻译成oat格式的文件，oat文件中既包含了dex文件中原先的内容，也包含了已经编译好的native代码。
