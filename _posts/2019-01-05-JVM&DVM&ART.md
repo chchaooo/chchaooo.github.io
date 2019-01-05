@@ -14,29 +14,21 @@ tags:
 ---
 
 ### JVM
-
 Java虚拟机（Java Virtual Machine，缩写为JVM）是一种能够运行Java bytecode的虚拟机
-
 JVM有三个概念：规范，实现和实例。 
 * 规范是一个正式描述JVM实现所需要的文档，具有单个规范确保所有实现是可互操作的。
 * JVM实现是一种满足JVM规范要求的计算机程序。
 * JVM的实例是在执行编译成Java字节码的计算机程序的过程中运行的实现。
-
 JVM上的垃圾回收机制可以参考这里：
 [java虚拟机内存管理](https://chchaooo.github.io/2018/02/28/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/)
 [java垃圾回收机制](https://chchaooo.github.io/2018/03/01/Java%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/)
 [分代垃圾收集器的详细机制](https://chchaooo.github.io/2018/03/01/%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E8%AF%A6%E7%BB%86%E6%9C%BA%E5%88%B6/)
 
 ### Dalvik
-
-Dalvik是Google专门为Android操作系统开发的虚拟机。它支持.dex（即“Dalvik Executable”）格式的Java应用程序的运行。.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。
-
-Dalvik由Dan Bornstein编写，名字来源于他的祖先曾经居住过的小渔村达尔维克（Dalvík），位于冰岛。
+Dalvik是Google专门为Android操作系统开发的虚拟机。它支持.dex（即“Dalvik Executable”）格式的Java应用程序的运行。.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。Dalvik由Dan Bornstein编写，名字来源于他的祖先曾经居住过的小渔村达尔维克（Dalvík），位于冰岛。
 
 #### JVM vs DVM
-
 * JAVA虚拟机运行的是JAVA字节码，Dalvik虚拟机运行的是Dalvik字节码。JAVA程序经过编译，生成JAVA字节码保存在class文件中，JVM通过解码class文件中的内容来运行程序。而DVM运行的是Dalvik字节码，所有的Dalvik字节码由JAVA字节码转换而来，并被打包到一个DEX（Dalvik Executable）可执行文件中，DVM通过解释DEX文件来执行这些字节码。
-
 * dex文件格式相对来说更加的紧凑。
 jar文件以class为区域进行划分，在连续的class区域中会包含每个class中的常量，方法，字段等等。而dex文件按照类型（例如：常量，字段，方法）划分，将同一类型的元素集中到一起进行存放。这样可以更大程度上避免重复，减少文件大小。
 两种文件格式的对比如下图所示：
@@ -49,10 +41,7 @@ class文件格式：
     * 基于寄存器的架构通常运行速度更快，因为有寄存器的支撑
     * 基于寄存器的架构通常需要较少的指令来完成同样的运算，因为不需要进行压栈和出栈
 ### Dalvik vs ART
-
-从Android 5.0（Lollipop）开始，Android Runtime（下文简称ART）代替了原先的Dalvik，成为Android系统上新的虚拟机。
-
-Dalvik虚拟机是google在2008年跟随Android系统一起发布的。当时的移动设备的系统内存只有64M左右，CPU频率在250~500MHz之间。到如今硬件水平已经有了巨大的提升，智能手机内存已经普遍达到了6G左右，CPU频率也达到了2GHz甚至更高。因此，Dalvik虚拟机被淘汰也是情理之中的事情。
+从Android 5.0（Lollipop）开始，Android Runtime（下文简称ART）代替了原先的Dalvik，成为Android系统上新的虚拟机。Dalvik虚拟机是google在2008年跟随Android系统一起发布的。当时的移动设备的系统内存只有64M左右，CPU频率在250~500MHz之间。到如今硬件水平已经有了巨大的提升，智能手机内存已经普遍达到了6G左右，CPU频率也达到了2GHz甚至更高。因此，Dalvik虚拟机被淘汰也是情理之中的事情。
 
 Dalvik之所以要被ART替代包含下面几个原因：
 * Dalvik的JIT执行方式，性能弱于本地机器码的执行
