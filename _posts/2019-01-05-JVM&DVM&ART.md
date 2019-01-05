@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "JVM/DVM/ART虚拟机"
+title:      "JVM / DVM / ART虚拟机"
 subtitle:   ""
-date:       2018-1-05 11:30:00
+date:       2019-1-05 11:30:00
 author:     "chchaooo"
 header-img: "img/main_banner.jpg"
 header-mask: 0.3
