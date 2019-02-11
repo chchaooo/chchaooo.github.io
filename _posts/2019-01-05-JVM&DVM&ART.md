@@ -97,8 +97,8 @@ ART虚拟机对上面的几点分别做了改进。
 
 ### Reference
 
-[Android上的ART虚拟机](https://paul.pub/android-art-vm/#id-dalvik%E5%88%B0art%E7%9A%84%E5%88%87%E6%8D%A2)
-
+* [Android上的ART虚拟机](https://paul.pub/android-art-vm/#id-dalvik%E5%88%B0art%E7%9A%84%E5%88%87%E6%8D%A2)
+* [虚拟机内存回收日志说明](http://gityuan.com/2015/10/03/Android-GC/)
 
 
 
