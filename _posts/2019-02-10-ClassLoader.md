@@ -38,32 +38,23 @@ Android中系统classloader类的继承关系如下：
 下面根据源码是以Android平台上的代码来看的。
 ClassLoader中有几个重要的方法。
 1. loadClass方法
+
 ```
 /**
-     * Loads the class with the specified <a href="#name">binary name</a>.  The
+     * Loads the class with the specified name.  The
      * default implementation of this method searches for classes in the
      * following order:
+     *   Invoke #findLoadedClass(String) to check if the class
+     *   has already been loaded.Invoke the {@link #loadClass(String) loadClass} method
+     *   on the parent class loader.  If the parent is null the class
+     *   loader built-in to the virtual machine is used, instead.
+     *   Invoke the {@link #findClass(String)} method to find the class. 
+     *  If the class was found using the above steps, and the
+     * resolve flag is true, this method will then invoke the {@link
+     * #resolveClass(Class)} method on the resulting Class object.
      *
-     * <ol>
-     *
-     *   <li><p> Invoke {@link #findLoadedClass(String)} to check if the class
-     *   has already been loaded.  </p></li>
-     *
-     *   <li><p> Invoke the {@link #loadClass(String) <tt>loadClass</tt>} method
-     *   on the parent class loader.  If the parent is <tt>null</tt> the class
-     *   loader built-in to the virtual machine is used, instead.  </p></li>
-     *
-     *   <li><p> Invoke the {@link #findClass(String)} method to find the
-     *   class.  </p></li>
-     *
-     * </ol>
-     *
-     * <p> If the class was found using the above steps, and the
-     * <tt>resolve</tt> flag is true, this method will then invoke the {@link
-     * #resolveClass(Class)} method on the resulting <tt>Class</tt> object.
-     *
-     * <p> Subclasses of <tt>ClassLoader</tt> are encouraged to override {@link
-     * #findClass(String)}, rather than this method.  </p>
+     * Subclasses of ClassLoader are encouraged to override {@link
+     * #findClass(String)}, rather than this method.  
     protected Class<?> loadClass(String name, boolean resolve)
         throws ClassNotFoundException
     {
@@ -95,7 +86,7 @@ ClassLoader中有几个重要的方法。
 loadClass的最后一步是findClass，这个ClassLoader中并没有实际的业务实现，这个留待子类去实现，默认的实现会直接抛出ClassNotFoundException。
 
 ```
-/**
+    /**
      * Finds the class with the specified <a href="#name">binary name</a>.
      * This method should be overridden by class loader implementations that
      * follow the delegation model for loading classes, and will be invoked by
