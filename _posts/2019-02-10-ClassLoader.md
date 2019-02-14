@@ -150,6 +150,7 @@ public class DiskClassLoader extends ClassLoader {
 
 上面说到Java和Android中ClassLoader的实现并不相同，但是上面两个业务核心类的实现逻辑基本是一致的，loadClass确定双亲加载模型的机制，findClass为子类加载不同路径、格式的class提供支持，从这个上面看，二者还是一脉相承的。
 
+Java1.8与Android Platform上的SecureClassLoader和UrlClassLoader代码几乎完全一致，可以看到，google在java的classloader的基础上，为了满足加载自身dex格式文件的需求，保持双亲加载机制，自己实现了一套加载dex的classloader
 
 
 
